@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Martin Balfanz <me@martinbalfanz.com>
 
 ;; Author: Martin Balfanz <me@martinbalfanz.com>
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or
@@ -23,14 +23,16 @@
 
 ;; This is an implementation of the german ESt.-formula provided by
 ;; §32a EStG for the years 2010-2012 of an unmarried person.
+;;
+;; source: https://www.bmf-steuerrechner.de/ekst/
 
 ;;; Code:
 
 (defun est-message (tax)
-  "Pretty print calculated value."
+  "Pretty print calculated value to minibuffer."
   (message (concat "You have to pay approximately "
                    (number-to-string (round tax))
-                   " Euro on taxes.")))
+                   " Euro.")))
 
 (defun est-insert (tax)
   "Insert calculated value at point."
@@ -46,10 +48,8 @@
    ((< zve 52882.0) (let* ((y (/ (- zve 13469.0) 10000.0))
                            (est (+ (* (+ (* 228.74 y) 2397.0) y) 1038.0)))
                       est))
-   ((< zve 250731.0) (let ((est (- (* 0.42 zve) 8172.0)))
-                       est))
-   (t (let ((est (- (* 0.45 zve) 15694.0)))
-        est))))
+   ((< zve 250731.0) (- (* 0.42 zve) 8172.0))
+   (t (- (* 0.45 zve) 15694.0))))
 
 ;;;###autoload
 (defun est (prefix zve)
