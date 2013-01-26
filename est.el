@@ -29,17 +29,17 @@
 ;;; Code:
 
 (defun est-message (tax)
-  "Pretty print calculated value to minibuffer."
+  "Pretty print TAX value to minibuffer."
   (message (concat "You have to pay approximately "
                    (number-to-string (round tax))
                    " Euro.")))
 
 (defun est-insert (tax)
-  "Insert calculated value at point."
+  "Insert TAX value at point."
   (insert (number-to-string (round tax))))
 
 (defun est-calc (zve)
-  "Calculate taxes."
+  "Calculate taxes from ZVE."
   (cond
    ((< zve 8005.0) 0)
    ((< zve 13470.0) (let* ((y (/ (- zve 8004.0) 10000.0))
@@ -53,8 +53,8 @@
 
 ;;;###autoload
 (defun est (prefix zve)
-  "Calculate and print taxes to minibuffer.
-If called with a prefix argument, the tax amout is inserted at point."
+  "Calculate tax from ZVE and print it to minibuffer.
+If called with a PREFIX argument, the tax amout is inserted at point."
   (interactive "P\nnEnter yearly income: ")
   (if (not prefix)
       (est-message (est-calc zve))
